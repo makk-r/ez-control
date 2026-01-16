@@ -67,3 +67,58 @@ def log_out_acc():
     else:
         print(f"{Fore.YELLOW}No Account{Style.RESET_ALL}")
 
+def connect_project(name_project,name_repo):
+    global dir_path
+    module_dir_path = os.path.dirname(dir_path)
+    project_path = f"{module_dir_path}/project/data/{name_project}"
+    print(project_path)
+    if not acc_check():
+        print(f"{Fore.YELLOW}Not logged in.{Style.RESET_ALL}")
+        return False
+    if os.path.isdir(project_path):
+        with open(f"{dir_path}/data.json", mode="r") as f:
+            data = json.load(f)
+        g = Github(data["token"])
+        github_folder_path = f"{data["user"]}/{name_repo}"
+        repo = g.get_repo(github_folder_path)
+        
+        message = input("message : ")
+        
+        contents = repo.get_contents("", ref="main")
+
+        try:
+            while contents:
+                file_content = contents.pop(0)
+                if file_content.type == "dir":
+                    contents.extend(repo.get_contents(file_content.path, ref="main"))
+                else:
+                    repo.delete_file(
+                        path=file_content.path,
+                        message=f"clear",
+                        sha=file_content.sha,
+                        branch="main"
+                    )
+        except GithubException as e:
+            print(f"{Fore.RED}error{Style.RESET_ALL} : ")
+        
+        for root, dirs, files in os.walk(project_path):
+            for filename in files:
+                local_path = os.path.join(root, filename)
+                relative_path = os.path.relpath(local_path, project_path)
+            
+                with open(local_path, "rb") as f:
+                    content = f.read()
+                
+                try:
+                    repo.create_file(
+                        path=relative_path.replace("\\", "/"),
+                        message=message,
+                        content=content,
+                        branch="main"
+                    )
+                    print(f"{Fore.GREEN}Success{Style.RESET_ALL} : {relative_path}")
+                except Exception as e:
+                    print(f"{Fore.RED}Error uploading {relative_path}{Style.RESET_ALL} : {e}")
+    else:
+        print(f"{Fore.YELLOW}The repo or project is incorrect.{Style.RESET_ALL}")
+
