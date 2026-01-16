@@ -1,0 +1,4 @@
+colorama
+packaging
+pandas
+PyGithub

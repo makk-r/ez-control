@@ -1,3 +1,4 @@
+
 import socket
 import os
 import sys
@@ -6,11 +7,17 @@ from colorama import Fore, Style
 from packaging import version
 import platform
 import time
+import readline
+from commands.Module import github_ec
 
 name_user = socket.gethostname()
 os_name = platform.system()
 
 def pb(status):
+    
+    if isinstance(status, str):
+        print(f"[ {Fore.YELLOW}{status}{Style.RESET_ALL} ]")
+        return
     if status:
         print(f"[ {Fore.GREEN}{status}{Style.RESET_ALL} ]")
     else:
@@ -19,30 +26,56 @@ def pb(status):
 def check_start():
     version_python = version.parse(platform.python_version())
     print(f"version : ", end="")
-    
     support_system = ["Linux"]
+    
+    Essential_Package = {
+        'colorama' : False,
+        'packaging' : False,
+        'pandas' : False
+    }
     
     status = {
         "version" : False,
         "os" : False
     }
     
-    if version_python >= version.parse("3.14"):
+    if version_python >= version.parse("3.8"):
         status["version"] = True
-        print(f"{version_python} >= 3.14", end=" ")
+        print(f"{version_python} >= 3.8", end=" ")
         pb(status["version"])
     else:
-        print(f"{version_python} >= 3.14")
+        print(f"{version_python} >= 3.8")
         pb(status["version"])
-        return False
+
+    print("system : ", end="")
+    
     if os_name in support_system:
         status["os"] = True
-        print(f"system : {os_name}", end=" ")
+        print(f"{os_name}", end=" ")
         pb(status["os"])
     else:
-        print(f"system : {os_name}", end=" ")
+        print(f"{os_name}", end=" ")
         pb(status["os"])
-        return False
+    
+    print("account : ", end="")
+    
+    acc = github_ec.acc_check()
+    
+    if acc:
+        global name_user
+        name_user = acc.login
+        print(f"{Fore.GREEN}{acc.login}{Style.RESET_ALL}", end=" ")
+        pb(True)
+    else:
+        print(f"{Fore.YELLOW}No Account{Style.RESET_ALL}", end=" ")
+        pb("SKIP")
+    
+    print("\n\nstatus")
+    for id,it in status.items():
+        print(f"{id} :", end=" ")
+        pb(it)
+        if it == False:
+            return False
     return True
 
 if not check_start():
