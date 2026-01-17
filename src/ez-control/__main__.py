@@ -74,7 +74,7 @@ def check_start():
         print(f"{Fore.YELLOW}No Account{Style.RESET_ALL}", end=" ")
         pb("SKIP")
 
-    print("connect repo : ")
+    print("connect repo")
     github_ec.repo_check()
     
     print("status")

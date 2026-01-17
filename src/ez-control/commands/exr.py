@@ -1,8 +1,7 @@
 from colorama import Fore, Style
-from .Module import github_ec, project
+from .Module import github_ec, project, update_ec
 import os
 import json
-import shutil
 
 file_path = os.path.abspath(__file__)
 
@@ -70,3 +69,13 @@ Search
     pj show                         : Show all projects
             """
         )
+
+def update_command(comm):
+    data_app = load_program()
+    comm = comm.split(" ")
+    if len(comm) == 2:
+        if comm[1] == "get":
+            if update_ec.check_update(data_app["type_install"], data_app["version"], data_app["update"]):
+                print(f"{Fore.YELLOW}There's an update.{Style.RESET_ALL}")
+            else:
+                print(f"{Fore.GREEN}No updates.{Style.RESET_ALL}")

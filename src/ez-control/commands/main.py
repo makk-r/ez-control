@@ -17,4 +17,7 @@ def run(command):
     if command.startswith("pj"):
         command_project(command)
         return True
+    if command.startswith("update"):
+        update_command(command)
+        return True
     return False
