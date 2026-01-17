@@ -9,7 +9,7 @@ ec control จะทำให้คุณสามารถควบคุมโ
 | :---: | :---: | :---: | :---: |
 |FULL|[26.1.1](https://github.com/makk-r/ez-control/raw/refs/heads/main/public/download/ez-control.tar.gz)|-|-|
 |DEBUG|-|-|-|
-|TEST|[26.1.2-test](https://github.com/makk-r/ez-control/raw/refs/heads/main/public/download/ez-control-test.tar.gz)|-|-|
+|TEST|[26.1.2a2](https://github.com/makk-r/ez-control/raw/refs/heads/main/public/download/ez-control-test.tar.gz)|-|-|
 
 ### HOW TO INSTALL
 
@@ -25,6 +25,8 @@ pip install -r ez-control/requirements.txt
 
 ~~~bash
 python ez-control
-# or
+~~~
+หรือ
+~~~bash
 python3 ez-control
 ~~~

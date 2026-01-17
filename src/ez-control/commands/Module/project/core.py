@@ -11,9 +11,12 @@ file_path = os.path.abspath(__file__)
 dir_path = os.path.dirname(file_path)
 
 def check_lock(name):
-    with open(f"{dir_path}/data/{name}/setup.json", mode="r") as f:
-        set_up = json.load(f)
-    return set_up["lock"]
+    try:
+        with open(f"{dir_path}/data/{name}/setup.json", mode="r") as f:
+            set_up = json.load(f)
+    except json.JSONDecodeError:
+        print(f"{Fore.YELLOW}The project is damaged; the lock has been automatically unlocked.{Style.RESET_ALL}")
+    return False
     
 
 if not os.path.isdir(f"{dir_path}/data/"):

@@ -26,7 +26,11 @@ def pb(status):
 def check_start():
     version_python = version.parse(platform.python_version())
     print(f"version : ", end="")
-    support_system = ["Linux"]
+    
+    support = {
+        "system" : ["Linux"],
+        "version_python" : "3.9"
+    }
     
     Essential_Package = {
         'colorama' : False,
@@ -39,17 +43,17 @@ def check_start():
         "os" : False
     }
     
-    if version_python >= version.parse("3.14"):
+    if version_python >= version.parse(support["version_python"]):
         status["version"] = True
-        print(f"{version_python} >= 3.14", end=" ")
+        print(f"{version_python} >= {support["version_python"]}", end=" ")
         pb(status["version"])
     else:
-        print(f"{version_python} >= 3.14")
+        print(f"{version_python} >= {support["version_python"]}")
         pb(status["version"])
 
     print("system : ", end="")
     
-    if os_name in support_system:
+    if os_name in support["system"]:
         status["os"] = True
         print(f"{os_name}", end=" ")
         pb(status["os"])
@@ -69,8 +73,11 @@ def check_start():
     else:
         print(f"{Fore.YELLOW}No Account{Style.RESET_ALL}", end=" ")
         pb("SKIP")
+
+    print("connect repo : ")
+    github_ec.repo_check()
     
-    print("\n\nstatus")
+    print("status")
     for id,it in status.items():
         print(f"{id} :", end=" ")
         pb(it)
@@ -78,10 +85,12 @@ def check_start():
             return False
     return True
 
-if not check_start():
+try:
+    if not check_start():
+        sys.exit(0)
+    time.sleep(3)
+except KeyboardInterrupt:
     sys.exit(0)
-
-time.sleep(3)
 
 os.system("clear")
 
