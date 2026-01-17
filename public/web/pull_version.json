@@ -1,5 +1,5 @@
 {
-    "archlinux" : {
+    "TAR" : {
         "FULL" : "26.1",
         "TEST" : "26.2a1"
     }

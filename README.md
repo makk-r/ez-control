@@ -5,7 +5,7 @@ ec control จะทำให้คุณสามารถควบคุมโ
 ## INSTALL
 
 
-|version\os|linux(tar.gz)|windows|mac|
+|version\os|linux(tar)|windows|mac|
 | :---: | :---: | :---: | :---: |
 |FULL|[26.1.1](https://github.com/makk-r/ez-control/raw/refs/heads/main/public/download/ez-control.tar.gz)|-|-|
 |DEBUG|-|-|-|

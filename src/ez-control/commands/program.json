@@ -3,5 +3,5 @@
     "version" : "26.2a1",
     "software_versions" : "alpha",
     "update" : "TEST",
-    "type_install" : "archlinux"
+    "type_install" : "TAR"
 }
