@@ -34,6 +34,8 @@ def git_ce(comm):
                 github_ec.get_acc()
             elif comm[2] == "out":
                 github_ec.log_out_acc()
+        elif comm[1] == "push":
+            github_ec.save_project(comm[2])
 
 def command_project(comm):
     comm = comm.split(" ")

@@ -104,41 +104,33 @@ def log_out_acc():
         sys.exit(0)
     else:
         print(f"{Fore.YELLOW}No Account{Style.RESET_ALL}")
-
-def connect_project(name_project,name_repo):
-    global dir_path
-    module_dir_path = os.path.dirname(dir_path)
-    project_path = f"{module_dir_path}/project/data/{name_project}"
+        
+def push_project(project_path,message):
+    
     if not acc_check():
         print(f"{Fore.YELLOW}Not logged in.{Style.RESET_ALL}")
         return False
+    
     if os.path.isdir(project_path):
         try:
             if os.path.isfile(f"{project_path}/setup.json"):
                 with open(f"{project_path}/setup.json", mode="r") as f:
                     setup_pj = json.load(f)
-            with open(f"{dir_path}/data.json", mode="r", encoding="utf-8") as f:
-                data = json.load(f)
         except json.decoder.JSONDecodeError as e:
             print(f"{Fore.RED}Project damaged.{Style.RESET_ALL}")
             return False
             
         try:
             print(f"{Fore.YELLOW}Connecting...{Style.RESET_ALL}")
-            g = Github(data["token"])
-            repo = g.get_repo(name_repo)
+            g = github_pull()
+            repo = g.get_repo(setup_pj["repo"])
             name_repo_ck = repo.name
             print(f"connect : {name_repo_ck} >> {Fore.GREEN}succeed{Style.RESET_ALL}")
         except GithubException:
             print(f"{Fore.YELLOW}Unable to connect.{Style.RESET_ALL}")
             return False
         
-        setup_pj["repo"] = name_repo
         
-        with open(f"{project_path}/setup.json", mode="w") as f:
-            json.dump(setup_pj,f)
-        
-        message = input("message : ")
         
         contents = repo.get_contents("", ref="main")
 
@@ -177,4 +169,41 @@ def connect_project(name_project,name_repo):
                     print(f"{Fore.RED}Error uploading {relative_path}{Style.RESET_ALL} : {e}")
     else:
         print(f"{Fore.YELLOW}Project damaged.{Style.RESET_ALL}")
+    
 
+def connect_project(name_project,name_repo):
+    
+    try:
+        print(f"{Fore.YELLOW}Connecting...{Style.RESET_ALL}")
+        g = github_pull()
+        repo = g.get_repo(name_repo)
+        name_repo_ck = repo.name
+        print(f"connect : {name_repo_ck} >> {Fore.GREEN}succeed{Style.RESET_ALL}")
+    except GithubException:
+        print(f"{Fore.YELLOW}Unable to connect.{Style.RESET_ALL}")
+        return False
+    
+    global dir_path
+    module_dir_path = os.path.dirname(dir_path)
+    project_path = f"{module_dir_path}/project/data/{name_project}"
+    
+    if os.path.isdir(project_path):
+        try:
+            if os.path.isfile(f"{project_path}/setup.json"):
+                with open(f"{project_path}/setup.json", mode="r") as f:
+                    setup_pj = json.load(f)
+        except json.decoder.JSONDecodeError as e:
+            print(f"{Fore.RED}Project damaged.{Style.RESET_ALL}")
+            return False
+    
+    setup_pj["repo"] = name_repo
+
+    with open(f"{project_path}/setup.json", mode="w") as f:
+        json.dump(setup_pj,f)
+
+def save_project(name_project):
+    message = input("message : ")
+    global dir_path
+    module_dir_path = os.path.dirname(dir_path)
+    project_path = f"{module_dir_path}/project/data/{name_project}"
+    push_project(project_path,message)
