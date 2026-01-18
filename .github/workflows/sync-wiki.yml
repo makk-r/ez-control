@@ -2,7 +2,7 @@ name: Sync Wiki
 on:
   push:
     branches: [ main ]
-    paths: [ 'wiki/**' ]
+    paths: [ 'docs/**' ]
 
 jobs:
   update_wiki:
@@ -16,6 +16,6 @@ jobs:
       - name: Sync to Wiki
         uses: Andrew-Chen-Wang/github-wiki-action@v4
         with:
-          path: wiki/
+          path: docs/
           token: ${{ secrets.GITHUB_TOKEN }}
           ignore_paths: ".github"

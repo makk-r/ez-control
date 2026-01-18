@@ -10,4 +10,4 @@ EZ CONTROL
 | :---: | :---: | :---: | :---: |
 |FULL|[26.2](https://github.com/makk-r/ez-control/raw/refs/heads/main/public/download/ez-control.tar.gz)|-|-|
 |DEBUG|-|-|-|
-|TEST|-|-|-|
+|TEST|-|[26.2a1](https://github.com/makk-r/ez-control/raw/refs/heads/main/public/download/ez-control-test.zip)|-|
