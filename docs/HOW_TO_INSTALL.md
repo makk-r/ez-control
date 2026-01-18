@@ -1,4 +1,4 @@
-### LINUX
+# LINUX
 
 1.แตกไฟล์
 
@@ -18,7 +18,7 @@ pip install -r ez-control/requirements.txt
 python3 ez-control
 ~~~
 
-## WINDOWS
+# WINDOWS
 
 1.แตกไฟล์
 
